@@ -1027,9 +1027,275 @@
 1. Create `apps/web/src/app/fishcare/tanks/page.tsx`: tank cards with photo, name, volume, livestock count
 2. Tank detail: current inhabitants list with compatibility matrix
 3. Water parameter logger: pH, ammonia, nitrite, nitrate, temperature (form entry)
-4. Water quality chart: `<TrendChart>` showing parameter history over 30 days
-5. Alerts: if ammonia > 0.25 ppm or nitrite > 0 → red warning with water change recommendation
-6. IoT placeholder: Seneye sensor auto-import (Phase 3)
-**Why:** Water quality monitoring is life-or-death for aquarium fish — visual trend charts catch problems before fish show symptoms.
+---
+
+# TRACK 11: Cross-App Integration Layer
+
+**Purpose:** Build the event-driven system that allows the 17 sub-apps to communicate and share data asynchronously.
+**Subagent scope:** Apache Kafka config, event schema design, consumer/producer logic.
+**Depends on:** Track 1 (Docker), Track 4 (Shared Services), Track 5 (Database schemas)
+
+## Task 11.1 — Kafka Event Registry & Schema Setup (15 min)
+**What:** Define the standardized event schemas for cross-app messaging.
+**How:**
+1. Create `packages/events/` (shared library)
+2. Define event schemas using JSON Schema or Avro: `UserRegistered`, `ItemIdentified`, `SubscriptionUpgraded`, `MilestoneReached`
+3. Event payload standard: `{ event_id, timestamp, source_app, user_id, type, data: {} }`
+4. Set up Kafka topics via script: `users.events`, `scanning.events`, `billing.events`, `notifications.events`
+5. Configure topic retention policies (e.g., keep billing events forever, scanning events for 7 days)
+**Why:** Without strict schemas, sub-apps will break when event payloads change.
+
+## Task 11.2 — User Identity Profile Sync (15 min)
+**What:** Build the mechanism that ensures user profile updates propagate across all apps.
+**How:**
+1. Create Kafka producer in Auth Service for `UserUpdated` event
+2. Create consumer in each sub-app (if they cache user data) or in the central Profile Service
+3. Handle avatar updates: when user uploads new avatar in PlantID, it updates the global profile
+4. Handle preference sync: changes to unit system (metric/imperial) update global settings
+**Why:** A user changing their name in Calo should instantly see that name change reflected when they open AthleteOS.
+
+## Task 11.3 — The Gamification Engine (20 min)
+**What:** Build a centralized gamification service that tracks milestones across all 17 apps.
+**How:**
+1. Create `services/gamification-service/` (Node.js)
+2. Kafka consumer: listens to `ItemIdentified` and `WorkoutCompleted` events
+3. Rule evaluation engine: e.g., "If 10 different bird families identified -> unlock 'Avian Scholar' badge"
+4. Database tables: `badges`, `user_badges`, `milestone_progress`
+5. Action: When badge unlocked, publish `BadgeUnlocked` event (picked up by Notification Service)
+**Why:** Gamification drives retention. Building it centrally means a user gets a "Master Explorer" badge for identifying a plant, a bird, and a rock.
+
+## Task 11.4 — Cross-Selling & Recommendation Engine (15 min)
+**What:** Build the engine that suggests related sub-apps based on user behavior.
+**How:**
+1. Create `services/recommendation-service/` (Python/FastAPI)
+2. Logic: If user uses Calo + LazyFit frequently -> suggest MuscleFit
+3. Logic: If user uses DogBreed -> suggest cat app, or show pet telehealth upsell
+4. Logic: If user uses CoinSnap + CardVault -> suggest VinylSnap or NoteSnap
+5. Delivery: Expose `GET /api/v1/recommendations/apps` for the frontend AppShell to display "Suggested for You"
+**Why:** The SuperWebApp's business model relies on converting single-app users into Platform Pass subscribers through cross-pollination.
+
+## Task 11.5 — Unified Export & Data Portability (15 min)
+**What:** Create a centralized way for users to export all their data across the platform.
+**How:**
+1. API endpoint: `POST /api/v1/user/export-data`
+2. Mechanism: Publish `DataExportRequested` event to Kafka
+3. Consumers: Every sub-app service listens, gathers that user's data, and writes JSON to a specific MinIO folder
+4. Aggregator: A background worker zips all the JSON files + images together
+5. Delivery: Publish `DataExportReady` event -> Notification Service emails the download link
+**Why:** GDPR and CCPA require data portability. Doing this asynchronously is the only way it works at scale.
 
 ---
+
+# TRACK 12: Testing Infrastructure & E2E
+
+**Purpose:** Set up automated testing across the monorepo to prevent regressions in a parallel development environment.
+**Subagent scope:** Playwright, Vitest, testing utilities.
+**Depends on:** Track 1 (Monorepo), Track 2 (UI Components)
+
+## Task 12.1 — Unit Testing Setup (Vitest) (15 min)
+**What:** Configure Vitest for fast unit testing in frontend and shared packages.
+**How:**
+1. Install `vitest`, `@testing-library/react`, `jsdom`
+2. Create `vitest.workspace.ts` at monorepo root
+3. Create setup file `setupTests.ts` (mocking `next/navigation`, `next/image`, ResizeObserver)
+4. Add npm script `test` to all `package.json` files
+5. Write example test for `Button.tsx` and a utility function in `@photoidentifier/utils`
+**Why:** Unit tests catch 80% of logic errors instantly during development.
+
+## Task 12.2 — E2E Testing Setup (Playwright) (20 min)
+**What:** Configure Playwright for end-to-end testing of critical user flows.
+**How:**
+1. Install `@playwright/test` at monorepo root
+2. Create `playwright.config.ts` (testing Chrome, Firefox, Safari viewing mobile and desktop)
+3. Set up global setup/teardown (starting local dev server before tests)
+4. Write test `login.spec.ts`: Fill login form, submit, verify redirect to dashboard
+5. Write test `navigation.spec.ts`: Verify sidebar navigation between PlantID and CoinSnap
+**Why:** E2E tests are the only way to verify that compiling 17 apps together actually results in a working UI.
+
+## Task 12.3 — API Integration Testing (Pytest) (15 min)
+**What:** Set up automated integration tests for backend FastAPI services.
+**How:**
+1. In `services/template/`, configure `pytest` and `pytest-asyncio`
+2. Create `conftest.py` with fixtures: test database (creates/drops schema per run), Redis mock, user token generator
+3. Write test for `POST /api/v1/upload`: mock MinIO, verify DB insert and correct response format
+4. Add `pytest` execution to the Docker Compose workflow or CI pipeline
+**Why:** API contracts must be strictly enforced. If the upload format changes, 17 frontends break.
+
+## Task 12.4 — A/B Testing Infrastructure (15 min)
+**What:** Implement a simple feature flag and A/B testing system.
+**How:**
+1. Choose a feature flag tool (e.g., GrowthBook OSS or a custom database table)
+2. Create `packages/feature-flags/` with a React provider and hook `useFeatureFlag('flag_name')`
+3. Backend: Add middleware to inject active flags based on user ID or percentage rollout
+4. Example flag: `new_paywall_design` (50% of users see variation A, 50% see variation B)
+5. Track flag exposure to the Analytics Service for conversion analysis
+**Why:** Continuous iteration requires testing variations (prices, onboarding flows) safely on subsets of users.
+
+---
+
+# TRACK 13: DevOps & CI/CD Pipeline
+
+**Purpose:** Automate the build, testing, and deployment processes.
+**Subagent scope:** GitHub Actions, Docker builds, deployment scripts.
+**Depends on:** Track 1 (Monorepo setup), Track 12 (Testing)
+
+## Task 13.1 — CI Pipeline for PRs (GitHub Actions) (20 min)
+**What:** Create the Continuous Integration workflow that runs on every Pull Request.
+**How:**
+1. Create `.github/workflows/ci.yml`
+2. Triggers: `pull_request` on `main`
+3. Steps: Checkout, Setup Node.js (v20), Setup Python (3.12), Cache `node_modules` and turborepo
+4. Run: `npx turbo run lint type-check test`
+5. Run: Pytest for all modified backend services
+6. Build: `npx turbo run build` (Ensures nothing breaks the build)
+**Why:** To prevent subagents or human devs from merging code that breaks the build or fails tests.
+
+## Task 13.2 — Docker Image Build Pipeline (15 min)
+**What:** Create the workflow to build and push Docker images.
+**How:**
+1. Create `.github/workflows/docker-build.yml`
+2. Triggers: push to `main` (with path filters to only build changed services)
+3. Use `docker/build-push-action` to build images for changed services
+4. Push to container registry (e.g., GitHub Packages or AWS ECR)
+5. Tag images with git SHA and `latest`
+**Why:** Automated image generation is required before deployment to staging/production.
+
+## Task 13.3 — CD Pipeline (Kubernetes Deployment) (20 min)
+**What:** Define Kubernetes manifests and the CD workflow.
+**How:**
+1. Create `infrastructure/k8s/` directory
+2. Create base Helm chart or Kustomize manifests for a standard service
+3. Create manifests for Kong, Next.js frontend, and core backend services
+4. Define Ingress routes, Services, Deployments, and ConfigMaps
+5. Create deployment script or workflow (e.g., updating image tags in a GitOps repo for ArgoCD, or running `kubectl apply`)
+**Why:** SuperWebApp is a microservices architecture; it requires K8s for scalability and orchestration.
+
+## Task 13.4 — Environment Provisioning (Terraform/OpenTofu) (15 min)
+**What:** Create Infrastructure as Code (IaC) for cloud resources.
+**How:**
+1. Create `infrastructure/terraform/`
+2. Define modules for: Managed PostgreSQL (e.g., AWS RDS or Supabase Cloud), Redis, Managed Kafka (Confluent/MSK), Object Storage (S3)
+3. Define Kubernetes cluster provisioning (EKS/GKE)
+4. Output connection strings and secrets to a secrets manager
+**Why:** Infrastructure must be reproducible so Staging perfectly mirrors Production.
+
+---
+
+# TRACK 14: Security, Compliance & Trust
+
+**Purpose:** Implement system-wide security policies, rate-limiting, and compliance features.
+**Subagent scope:** Kong plugins, database security, application-level security.
+**Depends on:** Track 3 (Auth), Track 4 (Kong), Track 5 (Database)
+
+## Task 14.1 — Rate Limiting & Bot Protection (Kong) (10 min)
+**What:** Configure aggressive rate limiting and bot protection at the gateway.
+**How:**
+1. Configure Kong `rate-limiting` plugin: distinct tiers for unauthenticated (strict), free tier (standard), premium (generous)
+2. Add Kong `bot-detection` plugin: block common scrapers and abusive bots
+3. Configure `cors` plugin properly (only allow production domains)
+4. Enable `ip-restriction` for admin routes
+**Why:** The AI inferences are expensive; the platform must be protected against malicious scraping and DDoS.
+
+## Task 14.2 — Secrets Management Setup (10 min)
+**What:** Implement secure secret handling for API keys and database credentials.
+**How:**
+1. Integrate a secrets manager (e.g., HashiCorp Vault, AWS Secrets Manager, or Doppler)
+2. Update backend `config.py` and frontend `env.ts` to fetch secrets at startup or build time (or via K8s external secrets operator)
+3. Rotate shared test keys
+**Why:** Hardcoding secrets or relying solely on local `.env` files is a critical vulnerability.
+
+## Task 14.3 — Privacy & Compliance Tools (15 min)
+**What:** Build features required for GDPR, CCPA, and COPPA compliance.
+**How:**
+1. Implement cookie consent banner in Next.js (using a package or custom UI)
+2. Implement "Delete My Account" flow: Hard delete from Auth, soft delete or anonymize tracking data, cascade delete user data
+3. COPPA (Kids Mode in apps like EntomIQ): Ensure no age tracking or PII is requested if age < 13
+4. Create Privacy Policy and Terms of Service placeholder pages
+**Why:** Legal compliance is not optional, especially when handling photos (which may contain PII or location data).
+
+## Task 14.4 — Content Moderation Pipeline (15 min)
+**What:** Build an automated pipeline to moderate user-uploaded images and marketplace text.
+**How:**
+1. Integrate an AI moderation API (e.g., AWS Rekognition or specialized OSS model) into the `upload-service`
+2. Block images containing NSFW content, extreme violence, or PII (faces/license plates where inappropriate)
+3. Text moderation: Filter marketplace listings for profanity or banned phrases
+**Why:** A single inappropriate image uploaded to a public marketplace or community map damages brand trust permanently.
+
+---
+
+# TRACK 15: Monitoring, Observability & Analytics
+
+**Purpose:** Instrument the system to track health, performance, and business metrics.
+**Subagent scope:** Prometheus, Grafana, OpenTelemetry, Sentry.
+**Depends on:** Track 4 (Services), Track 13 (DevOps)
+
+## Task 15.1 — Application Performance Monitoring (APM) (15 min)
+**What:** Integrate OpenTelemetry and Sentry for tracing and error tracking.
+**How:**
+1. Frontend: Install `@sentry/nextjs`, configure boundary
+2. Backend (FastAPI): Install `sentry-sdk`, configure ASGI middleware
+3. Add OpenTelemetry instrumentation to FastAPI (traces requests hitting DB, Redis, AI endpoints)
+4. Export traces to a collector (e.g., Jaeger or Datadog)
+**Why:** When an identity request takes 5 seconds, APM shows exactly whether the delay was Kong, network, AI model, or DB.
+
+## Task 15.2 — Metrics and Dashboards (Prometheus & Grafana) (15 min)
+**What:** Set up system metrics collection and visualization.
+**How:**
+1. Add Prometheus and Grafana to the local `docker-compose` or K8s staging cluster
+2. Expose `/metrics` endpoint on all FastAPI services (using `prometheus-fastapi-instrumentator`)
+3. Create Grafana dashboards for:
+   - System Health (CPU/Memory per pod)
+   - API Gateway (Kong requests/sec, error rates, latencies)
+   - AI Inference (Model load time, prediction latency, requests by model)
+**Why:** Real-time dashboards are required for on-call engineers to monitor system health.
+
+## Task 15.3 — Logging Aggregation Pipeline (10 min)
+**What:** Standardize logging and centralize log storage.
+**How:**
+1. Standardize backend logging to output JSON format (timestamp, level, service, trace_id, message)
+2. Deploy a fluent-bit or Promtail daemon to ship container logs
+3. Set up an aggregator (e.g., Elasticsearch/Kibana, Loki, or Datadog)
+4. Ensure PII (passwords, emails, exact locations) is scrubbed before logging
+**Why:** Searching logs across 15+ microservices requires a centralized, indexed logging platform.
+
+---
+
+# Execution Order (Concurrency Strategy)
+
+To achieve maximum efficiency, the subagents should execute these tracks based on the following dependency graph. 
+
+### Wave 1: The Foundation (High Concurrency)
+These tracks are independent and build the base for everything else. Run these simultaneously.
+*   **Track 1:** Monorepo & Project Scaffolding
+*   **Track 5:** Database Schema & Migrations (Requires Task 1.8 completion)
+*   **Track 12:** Testing Infrastructure
+*   **Track 13:** DevOps & CI/CD Pipeline
+
+### Wave 2: Core Platform (High Concurrency)
+These depend on the monorepo structure but define the look, feel, and APIs.
+*   **Track 2:** Design System & UI Components (Requires Task 1.1-1.3)
+*   **Track 4:** Backend Services & API Gateway (Requires Task 1, 5)
+*   **Track 6:** AI Inference Infrastructure (Requires Task 1, 4.1)
+
+### Wave 3: Identity & Integrations (Medium Concurrency)
+These bind the UI to the backend and databases.
+*   **Track 3:** Authentication & User Management (Requires Track 2, 5)
+*   **Track 11:** Cross-App Integration Layer (Requires Track 4, 5)
+*   **Track 14:** Security & Compliance (Requires Track 3, 4, 5)
+*   **Track 15:** Monitoring & Observability (Requires Track 4, 13)
+
+### Wave 4: The 17 Sub-Apps (Massive Concurrency)
+Once the platform, auth, UI library, databases, and AI endpoints (even placeholders) are ready, sub-app development can explode in parallel.
+*   **Track 7:** Nature Apps (Plant, Mushroom, Bird, Insect, Dog, Cat)
+*   **Track 8:** Collectibles (Coin, Vinyl, Card, Note)
+*   **Track 9:** Health/Fitness (Calo, Fruit, LazyFit, MuscleFit)
+*   **Track 10:** Technical (Vehicle, Rock, Fish)
+
+### Wave 5: Polish & Deployment (Low Concurrency)
+*   Final E2E test runs across all apps.
+*   Staging deployment.
+*   Security auditing.
+*   Production launch.
+
+---
+**END OF PLAN**
