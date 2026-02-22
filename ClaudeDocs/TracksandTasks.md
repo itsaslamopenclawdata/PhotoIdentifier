@@ -1,4 +1,4 @@
-# TracksandTasks — Parallel Build Plan for SuperWebApp
+# TracksandTasks — Parallel Build Plan for Prismora Platform
 ## Subagent-Driven Development with Maximum Concurrency
 
 > **How to use this document:** Each Track is assigned to one subagent. Each Task within a Track takes 10–20 minutes. Tracks are designed so that tasks within a track are **sequential** (each builds on the previous), but **entire tracks run in parallel** with other tracks. The Execution Order at the bottom defines concurrency waves.
@@ -53,7 +53,7 @@
 1. Create `packages/types/src/index.ts` as barrel export
 2. Define core types: `User`, `UserProfile`, `Subscription`, `AppPermission`, `AuthToken`
 3. Define shared AI types: `IdentificationResult`, `ConfidenceScore`, `PhotoUpload`, `AIModel`
-4. Define per-app type namespaces: `CoinSnap`, `PlantID`, `DogBreed`, etc. (empty initially, filled by app tracks)
+4. Define per-app type namespaces: `CoinPrismora`, `FloraPrismora`, `DogBreed`, etc. (empty initially, filled by app tracks)
 5. Add `package.json` with `name: "@photoidentifier/types"`, `main: "./src/index.ts"`
 **Why:** Centralised types prevent drift between frontend and backend, and enable auto-completion for all subagents.
 
@@ -105,7 +105,7 @@
 **How:**
 1. Create `README.md` with: project overview, tech stack, getting started, folder structure diagram
 2. Create `CONTRIBUTING.md` with: branch naming (`track-N/task-description`), commit message format, PR template
-3. Create `docs/ARCHITECTURE.md` linking to the SuperWebApp_Nextsteps.md sections
+3. Create `docs/ARCHITECTURE.md` linking to the Prismora Platform_Nextsteps.md sections
 4. Document the subagent workflow: pull latest → work on task → test → commit
 **Why:** Subagents need clear documentation to work independently without conflicting with other tracks.
 
@@ -148,7 +148,7 @@
 4. Create `Alert.tsx`: full-width banner with icon, dismiss button, variants matching badge colors
 5. Create `Tooltip.tsx`: positioned tooltip using `@floating-ui/react`
 6. Write Storybook stories for each
-**Why:** SafetyBadge is critical for MycoSafe (mushrooms), PlantIdentifier (toxicity), PictureInsect (danger), and EntomIQ.
+**Why:** SafetyBadge is critical for ShroomPrismora (mushrooms), PlantIdentifier (toxicity), PictureInsect (danger), and InsectPrismora.
 
 ## Task 2.4 — PhotoCapture Universal Component (20 min)
 **What:** Build the most important shared component — the camera/upload interface used by ALL 17 sub-apps.
@@ -334,7 +334,7 @@
 **How:**
 1. Create `usage_tracking` table: `user_id`, `app_id`, `action_type`, `count`, `period_start`, `period_end`
 2. Create `apps/web/src/lib/usage.ts` with `checkUsageLimit(userId, appId, action)` and `incrementUsage()`
-3. Free tier limits: 20 identifications/day per app, 5 grade predictions/month (CardVault), 30 insect IDs/day
+3. Free tier limits: 20 identifications/day per app, 5 grade predictions/month (CardPrismora), 30 insect IDs/day
 4. When limit reached: show upgrade modal with pricing CTA
 5. Premium users: skip all limit checks (return `{ allowed: true }` immediately)
 **Why:** Freemium conversion depends on enforcing free-tier limits while making the upgrade path frictionless.
@@ -433,7 +433,7 @@
 5. `POST /api/v1/marketplace/purchase`: initiate Stripe payment intent, create transaction
 6. Seller verification: require email confirmation before listing goes live
 7. Platform fee: 10% commission on each transaction (configured via env var)
-**Why:** CoinSnap, VinylSnap, CardVault, OkayFish, and RockID all have marketplace features — one shared service serves all.
+**Why:** CoinPrismora, VinylPrismora, CardPrismora, AquaPrismora, and RockPrismora all have marketplace features — one shared service serves all.
 
 ## Task 4.9 — Telehealth Booking Service (15 min)
 **What:** Build the shared video consultation booking backend for vet and coaching telehealth.
@@ -444,7 +444,7 @@
 4. `POST /api/v1/telehealth/book`: create booking, charge via Stripe, generate Daily.co room URL
 5. `POST /api/v1/telehealth/start`: return Daily.co room token for video call
 6. Pre-triage form: store symptom/question data attached to booking for provider review
-**Why:** BarkIQ, MeowIQ (vet telehealth) and MuscleFit (coaching) all need video consultation — one service handles bookings and video rooms.
+**Why:** PawPrismora, MeowPrismora (vet telehealth) and MusclePrismora (coaching) all need video consultation — one service handles bookings and video rooms.
 
 ## Task 4.10 — API Documentation with OpenAPI (10 min)
 **What:** Generate and serve unified API documentation for all services.
@@ -508,7 +508,7 @@
 7. Add `marketplace_listings` table in shared schema for cross-app marketplace
 **Why:** Consistent collectible schema enables shared portfolio dashboards and a unified marketplace service.
 
-## Task 5.5 — Health & Fitness Apps Schemas (Calo, Fruit, LazyFit, MuscleFit) (20 min)
+## Task 5.5 — Health & Fitness Apps Schemas (NutriPrismora, Fruit, FitPrismora, MusclePrismora) (20 min)
 **What:** Create database schemas for the 4 health/fitness sub-apps.
 **How:**
 1. `calo` schema: `foods`, `meal_logs`, `daily_summaries`, `nutrition_goals`
@@ -625,7 +625,7 @@
 **Why:** Frontend sub-app tracks need working AI endpoints to develop result pages — placeholder models return random but structurally correct responses.
 
 ## Task 6.7 — TensorFlow.js Browser Models Setup (15 min)
-**What:** Set up browser-side AI inference for LazyFit and MuscleFit (MoveNet pose estimation).
+**What:** Set up browser-side AI inference for FitPrismora and MusclePrismora (MoveNet pose estimation).
 **How:**
 1. Create `packages/ai-browser/` package
 2. Install `@tensorflow/tfjs` and `@tensorflow-models/pose-detection`
@@ -636,7 +636,7 @@
 **Why:** Pose estimation must run in-browser for real-time feedback — server round-trip would add unacceptable latency.
 
 ## Task 6.8 — Audio Inference for BirdNET (15 min)
-**What:** Set up the audio analysis pipeline for WingWatch Pro bird song identification.
+**What:** Set up the audio analysis pipeline for BirdPrismora Pro bird song identification.
 **How:**
 1. Create `services/audio-inference/` (FastAPI)
 2. Install `birdnetlib` (Python wrapper for Cornell Lab BirdNET model)
@@ -644,7 +644,7 @@
 4. Process: convert to WAV 48kHz, run BirdNET analyzer, return species + confidence
 5. Return top-5 species matches with confidence scores and range map data
 6. Add audio file storage to MinIO bucket `audio-uploads/`
-**Why:** WingWatch Pro's differentiator is audio bird ID — birders can identify birds they hear but can't see.
+**Why:** BirdPrismora Pro's differentiator is audio bird ID — birders can identify birds they hear but can't see.
 
 ---
 
@@ -654,8 +654,8 @@
 **Subagent scope:** Next.js pages, React components, API route handlers for 6 nature apps.
 **Depends on:** Track 1 (routes), Track 2 (UI components), Track 5 (DB schemas), Track 6 (AI endpoints)
 
-## Task 7.1 — Plant Identifier: Scan & Result Pages (20 min)
-**What:** Build the Plant Identifier scan page and identification result page.
+## Task 7.1 — FloraPrismora: Scan & Result Pages (20 min)
+**What:** Build the FloraPrismora scan page and identification result page.
 **How:**
 1. Create `apps/web/src/app/plantid/identify/page.tsx`: uses `<PhotoCapture>` component
 2. On photo confirm: call `POST /api/v1/ai/identify { app_id: "plantid", image_url }` 
@@ -663,9 +663,9 @@
 4. Detail tabs: Overview (common name, scientific name, family), Care Guide (water, light, soil), Toxicity (ASPCA data), Gallery
 5. "Save to My Garden" button → inserts into `plantid.user_plants`
 6. Always show toxicity warning before any other content if plant is toxic
-**Why:** Plant Identifier is the highest-demand sub-app — it must be the first fully functional app to validate the platform.
+**Why:** FloraPrismora is the highest-demand sub-app — it must be the first fully functional app to validate the platform.
 
-## Task 7.2 — Plant Identifier: My Garden & Care Features (15 min)
+## Task 7.2 — FloraPrismora: My Garden & Care Features (15 min)
 **What:** Build the My Garden collection and plant care tracking pages.
 **How:**
 1. Create `apps/web/src/app/plantid/garden/page.tsx`: grid of user's saved plants with photo, name, last watered
@@ -676,7 +676,7 @@
 **Why:** Retention depends on users returning daily to care for their tracked plants — the garden is the sticky feature.
 
 ## Task 7.3 — Mushroom Identifier: Safety-Critical Scan (20 min)
-**What:** Build the MycoSafe mushroom identification interface with MANDATORY safety features.
+**What:** Build the ShroomPrismora mushroom identification interface with MANDATORY safety features.
 **How:**
 1. Create `apps/web/src/app/mushroom/identify/page.tsx`: uses `<PhotoCapture>` with freeform overlay
 2. Result page: ALWAYS shows `<SafetyBadge>` as the FIRST element — before name, before photo, before anything
@@ -685,10 +685,10 @@
 5. MANDATORY disclaimer on EVERY result: "NEVER eat a wild mushroom based solely on AI identification"
 6. "Similar Toxic Species" section showing lookalikes that are dangerous
 7. If confidence < 70%: show "Unable to identify safely — seek expert mycologist advice"
-**Why:** MycoSafe is the only sub-app where a mistake could kill someone. Safety-first design is non-negotiable.
+**Why:** ShroomPrismora is the only sub-app where a mistake could kill someone. Safety-first design is non-negotiable.
 
 ## Task 7.4 — Bird Identifier: Photo & Audio Scan (20 min)
-**What:** Build the WingWatch Pro bird identification with dual photo+audio input.
+**What:** Build the BirdPrismora Pro bird identification with dual photo+audio input.
 **How:**
 1. Create `apps/web/src/app/birdid/identify/page.tsx` with TWO tabs: Photo ID and Audio ID
 2. Photo tab: `<PhotoCapture>` → `POST /api/v1/ai/identify { app_id: "birdid" }`
@@ -697,7 +697,7 @@
 5. Result page: species name, photo gallery, range map (using `<MapView>` + `<RangeOverlay>`), song player
 6. "Add to Life List" button → inserts into `birdid.life_lists`
 7. "Submit to eBird" button (Phase 2 placeholder)
-**Why:** Dual photo+audio identification is WingWatch Pro's killer feature that no other birding web app offers.
+**Why:** Dual photo+audio identification is BirdPrismora Pro's killer feature that no other birding web app offers.
 
 ## Task 7.5 — Bird Identifier: Life List & Sighting Map (15 min)
 **What:** Build the life list tracker and community sighting map.
@@ -710,7 +710,7 @@
 **Why:** Life listing is the core gamification mechanic in birding — it drives long-term engagement.
 
 ## Task 7.6 — Insect Identifier: Scan & Danger System (20 min)
-**What:** Build the EntomIQ insect identification with 4-level danger classification.
+**What:** Build the InsectPrismora insect identification with 4-level danger classification.
 **How:**
 1. Create `apps/web/src/app/insectid/identify/page.tsx`: `<PhotoCapture>` with freeform overlay
 2. Result page: species name, order, family + `<SafetyBadge>` for danger level
@@ -719,10 +719,10 @@
 5. Pest Management tab: for agricultural pests, show organic + chemical treatment options
 6. "Report Sighting" button → GPS-tagged log to `insectid.sightings`
 7. Kids Mode toggle: simplified language, fun facts, badge earning system (no personal data for COPPA)
-**Why:** EntomIQ serves both curious naturalists AND farmers needing pest identification — the danger system protects both.
+**Why:** InsectPrismora serves both curious naturalists AND farmers needing pest identification — the danger system protects both.
 
-## Task 7.7 — Dog Breed Identifier: Scan & Breed Profile (20 min)
-**What:** Build the BarkIQ dog breed identification with mixed-breed composition.
+## Task 7.7 — PawPrismora: Scan & Breed Profile (20 min)
+**What:** Build the PawPrismora dog breed identification with mixed-breed composition.
 **How:**
 1. Create `apps/web/src/app/dogbreed/identify/page.tsx`: `<PhotoCapture>`
 2. Result: top-3 breed matches + `<DonutChart>` showing breed composition percentages
@@ -730,9 +730,9 @@
 4. "Add to My Dogs" button → creates `dogbreed.user_pets` entry with breed_composition JSONB
 5. Health screening: list breed-specific genetic conditions (hip dysplasia, cardiac, eye)
 6. Exercise needs: daily minutes recommendation based on breed energy classification
-**Why:** 53M rescue dogs in the US have unknown heritage — BarkIQ's mixed breed analysis is its unique value proposition.
+**Why:** 53M rescue dogs in the US have unknown heritage — PawPrismora's mixed breed analysis is its unique value proposition.
 
-## Task 7.8 — Dog Breed: My Dogs & Health Tracker (15 min)
+## Task 7.8 — PawPrismora: My Dogs & Health Tracker (15 min)
 **What:** Build the My Dogs profile manager and health record tracker.
 **How:**
 1. Create `apps/web/src/app/dogbreed/mydogs/page.tsx`: pet profile cards with photo, name, breed, age
@@ -742,17 +742,17 @@
 5. Training Center placeholder: 12-week breed-appropriate training plan (Phase 2 feature)
 **Why:** The health tracker creates switching costs — once a user enters all vaccination records, they won't leave.
 
-## Task 7.9 — Cat Breed Identifier: Scan & Profile (20 min)
-**What:** Build the MeowIQ cat breed identification with feline-specific features.
+## Task 7.9 — MeowPrismora: Scan & Profile (20 min)
+**What:** Build the MeowPrismora cat breed identification with feline-specific features.
 **How:**
 1. Create `apps/web/src/app/catbreed/identify/page.tsx`: `<PhotoCapture>`
 2. Result: breed matches + composition chart + trait bars (vocality, affection, independence, grooming)
 3. Breed profile: TICA/CFA data, health risks (HCM, PKD, FIP), shedding, indoor/outdoor suitability
 4. "Add to My Cats" → `catbreed.user_cats` entry
 5. Behavior interpreter library page: 60 behaviors with illustrated explanations (slow blink, kneading, etc.)
-**Why:** MeowIQ differentiates by understanding feline-specific traits that dog apps ignore.
+**Why:** MeowPrismora differentiates by understanding feline-specific traits that dog apps ignore.
 
-## Task 7.10 — Cat Breed: My Cats & Daily Check-In (15 min)
+## Task 7.10 — MeowPrismora: My Cats & Daily Check-In (15 min)
 **What:** Build the My Cats manager and daily health check-in feature.
 **How:**
 1. Create `apps/web/src/app/catbreed/mycats/page.tsx`: cat card carousel with BCS status indicator
@@ -760,18 +760,18 @@
 3. On submit: AI compares today's photo against baseline → flags deviations (coat change, posture, face)
 4. BCS (Body Condition Score) assessment: submit multi-angle photos → AI returns 1-9 BCS score
 5. Weight trend chart + health reminders
-**Why:** Cats hide illness — the daily check-in with AI deviation detection is MeowIQ's breakthrough feature.
+**Why:** Cats hide illness — the daily check-in with AI deviation detection is MeowPrismora's breakthrough feature.
 
 ---
 
 # TRACK 8: Collectibles & Finance Sub-Apps (4 Apps)
 
-**Purpose:** Build CoinSnap, VinylSnap, CardVault, and NoteSnap sub-apps.
+**Purpose:** Build CoinPrismora, VinylPrismora, CardPrismora, and NotePrismora sub-apps.
 **Subagent scope:** Next.js pages, collection management, market data integration.
 **Depends on:** Track 1 (routes), Track 2 (UI components), Track 5 (DB schemas), Track 6 (AI endpoints)
 
-## Task 8.1 — CoinSnap: Scan & Coin Profile (20 min)
-**What:** Build the CoinLens coin identification and profile display.
+## Task 8.1 — CoinPrismora: Scan & Coin Profile (20 min)
+**What:** Build the CoinPrismora coin identification and profile display.
 **How:**
 1. Create `apps/web/src/app/coinsnap/identify/page.tsx`: `<PhotoCapture>` with circular overlay guide
 2. Result: country, denomination, year, mint mark, metal composition, diameter
@@ -781,7 +781,7 @@
 6. Visual similarity search: "Similar Coins" section using CLIP embeddings from Qdrant
 **Why:** Coin collectors need instant valuation at coin shows — speed and accuracy drive premium conversion.
 
-## Task 8.2 — CoinSnap: Collection & Portfolio (15 min)
+## Task 8.2 — CoinPrismora: Collection & Portfolio (15 min)
 **What:** Build the coin collection manager and portfolio value dashboard.
 **How:**
 1. Create `apps/web/src/app/coinsnap/collection/page.tsx`: grid of collected coins with photos, grades, values
@@ -791,8 +791,8 @@
 5. Sort/filter: by country, year range, value, grade
 **Why:** The portfolio tracker is the premium stickiness feature — collectors won't rebuild a 500-coin catalog elsewhere.
 
-## Task 8.3 — VinylSnap: Scan & Record Profile (20 min)
-**What:** Build the VinylSnap label recognition and record detail page.
+## Task 8.3 — VinylPrismora: Scan & Record Profile (20 min)
+**What:** Build the VinylPrismora label recognition and record detail page.
 **How:**
 1. Create `apps/web/src/app/vinylsnap/identify/page.tsx`: `<PhotoCapture>` with circular overlay
 2. On identify: OCR on label text + visual CNN → match against Discogs database
@@ -800,9 +800,9 @@
 4. Market data: Discogs median/low/high price, recent sales chart
 5. Condition grading guidance: visual reference for VG/VG+/NM/M grading with example photos
 6. "Save to Collection" → `vinylsnap.user_vinyl`
-**Why:** VinylSnap's unique value is identifying exact pressing variants — a 1972 UK first press is worth 10x a 1985 reissue.
+**Why:** VinylPrismora's unique value is identifying exact pressing variants — a 1972 UK first press is worth 10x a 1985 reissue.
 
-## Task 8.4 — VinylSnap: Collection & Wishlist (15 min)
+## Task 8.4 — VinylPrismora: Collection & Wishlist (15 min)
 **What:** Build the vinyl collection manager and want list.
 **How:**
 1. Create `apps/web/src/app/vinylsnap/collection/page.tsx`: album art grid, artist, condition, value
@@ -812,8 +812,8 @@
 5. Statistics: total records, by genre, by decade, by label
 **Why:** The Want List with marketplace alerts creates a reason to return daily — "your grail was just listed."
 
-## Task 8.5 — CardVault: Scan & Card Profile (20 min)
-**What:** Build the CardVault AI sports card scanner and result display.
+## Task 8.5 — CardPrismora: Scan & Card Profile (20 min)
+**What:** Build the CardPrismora AI sports card scanner and result display.
 **How:**
 1. Create `apps/web/src/app/cardvault/identify/page.tsx`: `<PhotoCapture>` with rectangular overlay
 2. AI pipeline: OCR (player name, year, set) + visual model (parallel, color variant detection)
@@ -821,9 +821,9 @@
 4. Market data: eBay 90-day sales history chart, PSA population report numbers
 5. AI Grade Predictor: multi-image upload (front/back/edges/corners) → estimated PSA grade (1-10)
 6. "Save to Vault" → `cardvault.user_cards`
-**Why:** Grade prediction before spending $50 on PSA submission is CardVault's $400B market differentiator.
+**Why:** Grade prediction before spending $50 on PSA submission is CardPrismora's $400B market differentiator.
 
-## Task 8.6 — CardVault: Collection & Portfolio (15 min)
+## Task 8.6 — CardPrismora: Collection & Portfolio (15 min)
 **What:** Build the sports card collection manager and investment portfolio.
 **How:**
 1. Create `apps/web/src/app/cardvault/collection/page.tsx`: card grid with photos, player, grade, value
@@ -831,10 +831,10 @@
 3. Price alerts: set target price → notification when market crosses threshold
 4. Batch scan mode: streamlined UI for scanning 50+ cards at a card show (rapid-fire photo)
 5. Export: CSV export of entire collection
-**Why:** CardVault targets the $40B sports card market — portfolio tracking with ROI analytics appeals to card investors.
+**Why:** CardPrismora targets the $40B sports card market — portfolio tracking with ROI analytics appeals to card investors.
 
-## Task 8.7 — NoteSnap: Scan & Currency Info (20 min)
-**What:** Build the CurrencyLens banknote identification and exchange rate display.
+## Task 8.7 — NotePrismora: Scan & Currency Info (20 min)
+**What:** Build the NotePrismora banknote identification and exchange rate display.
 **How:**
 1. Create `apps/web/src/app/notesnap/identify/page.tsx`: `<PhotoCapture>` with rectangular overlay
 2. Result: country, denomination, series/year, current value in user's home currency
@@ -842,9 +842,9 @@
 4. Security features guide: watermark, security thread, hologram locations for the identified note
 5. Collector mode: PMG-style grading reference, mintage data, collectible premium
 6. "Save to Collection" → `notesnap.user_notes`
-**Why:** 190+ country coverage makes NoteSnap indispensable for international travelers and currency collectors.
+**Why:** 190+ country coverage makes NotePrismora indispensable for international travelers and currency collectors.
 
-## Task 8.8 — NoteSnap: Collection & Exchange Calculator (15 min)
+## Task 8.8 — NotePrismora: Collection & Exchange Calculator (15 min)
 **What:** Build the banknote collection manager and currency conversion tools.
 **How:**
 1. Create `apps/web/src/app/notesnap/collection/page.tsx`: notes grid with photos, countries, values
@@ -852,18 +852,18 @@
 3. Travel mode: "I'm going to Japan" → shows all JPY denominations with security features
 4. Collection statistics: by country, by continent, total face value
 5. Counterfeit awareness section: common counterfeiting techniques per currency (informational only)
-**Why:** The travel mode feature creates utility beyond collecting — business travelers use NoteSnap before every international trip.
+**Why:** The travel mode feature creates utility beyond collecting — business travelers use NotePrismora before every international trip.
 
 ---
 
 # TRACK 9: Health & Fitness Sub-Apps (4 Apps)
 
-**Purpose:** Build Calo, Fruit Identifier, LazyFit, and MuscleFit sub-apps.
+**Purpose:** Build NutriPrismora, FruitPrismora, FitPrismora, and MusclePrismora sub-apps.
 **Subagent scope:** Next.js pages, health tracking UI, fitness features, nutrition logging.
 **Depends on:** Track 1 (routes), Track 2 (UI components), Track 5 (DB schemas), Track 6 (AI endpoints + TF.js)
 
-## Task 9.1 — Calo: Food Scan & Nutrition Display (20 min)
-**What:** Build the Calo food identification and nutritional information display.
+## Task 9.1 — NutriPrismora: Food Scan & Nutrition Display (20 min)
+**What:** Build the NutriPrismora food identification and nutritional information display.
 **How:**
 1. Create `apps/web/src/app/calo/identify/page.tsx`: `<PhotoCapture>` for food photo
 2. Result: food name, portion estimate (grams), calorie count, macro breakdown (protein/carb/fat)
@@ -871,9 +871,9 @@
 4. "Log to Diary" button with portion size adjuster (slider: 0.5x → 3x serving)
 5. Manual search fallback: text search against USDA FoodData Central
 6. Barcode scan mode (Phase 2 placeholder): scan packaged food barcode for instant nutrition
-**Why:** Calo is the daily-use health hub — users log every meal, creating the highest engagement frequency in the platform.
+**Why:** NutriPrismora is the daily-use health hub — users log every meal, creating the highest engagement frequency in the platform.
 
-## Task 9.2 — Calo: Daily Diary & Goal Tracking (15 min)
+## Task 9.2 — NutriPrismora: Daily Diary & Goal Tracking (15 min)
 **What:** Build the food diary and daily calorie/macro goal tracking.
 **How:**
 1. Create `apps/web/src/app/calo/diary/page.tsx`: meals grouped by Breakfast/Lunch/Dinner/Snacks
@@ -884,18 +884,18 @@
 6. Cross-app integration: listen for `fruit.scanned` Kafka event → auto-suggest adding to diary
 **Why:** The diary + goals create accountability — visualizing progress is the #1 motivator for diet adherence.
 
-## Task 9.3 — Fruit Identifier: Scan & Nutrition (20 min)
-**What:** Build the OrchardIQ fruit identification with ripeness and nutrition.
+## Task 9.3 — FruitPrismora: Scan & Nutrition (20 min)
+**What:** Build the FruitPrismora fruit identification with ripeness and nutrition.
 **How:**
 1. Create `apps/web/src/app/fruitid/identify/page.tsx`: `<PhotoCapture>` with circular overlay
 2. Result: fruit name, variety, ripeness assessment (Unripe/Nearly Ripe/Ripe/Overripe), season
 3. Nutrition panel: calories, vitamins, mineral content, glycemic index from USDA FoodData Central
 4. Ripeness guide: visual timeline showing optimal eating window
 5. "How to eat" section: preparation instructions for exotic fruits
-6. "Add to Calo" button: publishes `fruit.scanned` Kafka event → Calo auto-logs nutrition
-**Why:** The Calo integration is the key cross-app synergy — fruit scans auto-flow into the daily calorie diary.
+6. "Add to NutriPrismora" button: publishes `fruit.scanned` Kafka event → NutriPrismora auto-logs nutrition
+**Why:** The NutriPrismora integration is the key cross-app synergy — fruit scans auto-flow into the daily calorie diary.
 
-## Task 9.4 — Fruit Identifier: Seasonal Guide & Allergies (15 min)
+## Task 9.4 — FruitPrismora: Seasonal Guide & Allergies (15 min)
 **What:** Build the seasonal availability guide and allergy information features.
 **How:**
 1. Create `apps/web/src/app/fruitid/seasonal/page.tsx`: monthly calendar showing peak season fruits
@@ -905,8 +905,8 @@
 5. Compare mode: select 2 fruits side-by-side → nutritional comparison table
 **Why:** Seasonal guides drive repeat visits — users check what's in season each month.
 
-## Task 9.5 — LazyFit: Workout Browser & Player (20 min)
-**What:** Build the LazyFit beginner workout browser and video workout player.
+## Task 9.5 — FitPrismora: Workout Browser & Player (20 min)
+**What:** Build the FitPrismora beginner workout browser and video workout player.
 **How:**
 1. Create `apps/web/src/app/lazyfit/page.tsx`: workout card grid filtered by duration (5/10/15/20 min), body part, difficulty
 2. Workout detail page: title, duration, exercises list with rep/time, difficulty badge
@@ -914,21 +914,21 @@
 4. Exercise demo: animated GIF or video for each exercise (generate placeholder images)
 5. MoveNet integration: enable camera for real-time form correction overlay using `@photoidentifier/ai-browser`
 6. Session complete: show summary card with duration, calories, form score
-**Why:** LazyFit targets the 80% of people who find fitness apps intimidating — simplicity is the product.
+**Why:** FitPrismora targets the 80% of people who find fitness apps intimidating — simplicity is the product.
 
-## Task 9.6 — LazyFit: Progress Tracking & Streaks (15 min)
-**What:** Build the LazyFit progress dashboard and streak motivation system.
+## Task 9.6 — FitPrismora: Progress Tracking & Streaks (15 min)
+**What:** Build the FitPrismora progress dashboard and streak motivation system.
 **How:**
 1. Create `apps/web/src/app/lazyfit/progress/page.tsx`
 2. Streak counter: consecutive days worked out, with fire emoji animation 🔥
 3. Weekly calendar: color-coded blocks (green=completed, gray=rest day, red=missed)
 4. Stats: total workouts, total minutes, average form score, most worked body part
 5. Level system: Beginner → Intermediate → Advanced based on sessions completed + form scores
-6. "Ready for more?" CTA: when user hits Advanced level → link to MuscleFit/AthleteOS
-**Why:** The streak system creates daily habit formation; the AthleteOS handoff converts power users to the premium fitness app.
+6. "Ready for more?" CTA: when user hits Advanced level → link to MusclePrismora/MusclePrismora
+**Why:** The streak system creates daily habit formation; the MusclePrismora handoff converts power users to the premium fitness app.
 
-## Task 9.7 — MuscleFit: Program Builder & Set Logger (20 min)
-**What:** Build the AthleteOS program builder and workout set logging interface.
+## Task 9.7 — MusclePrismora: Program Builder & Set Logger (20 min)
+**What:** Build the MusclePrismora program builder and workout set logging interface.
 **How:**
 1. Create `apps/web/src/app/musclefit/programs/page.tsx`: 12 pre-built program templates (PPL, 5/3/1, Arnold, GZCLP, nSuns, PHUL, etc.)
 2. Program detail: weekly schedule view, exercise list per day, volume targets
@@ -938,7 +938,7 @@
 6. Offline mode: localStorage backup of active workout, sync when back online
 **Why:** Set logging speed is the #1 usability requirement — if it's slower than pen-and-paper, users won't adopt it.
 
-## Task 9.8 — MuscleFit: Analytics & Body Composition (15 min)
+## Task 9.8 — MusclePrismora: Analytics & Body Composition (15 min)
 **What:** Build the training analytics dashboard and body composition tracking.
 **How:**
 1. Create `apps/web/src/app/musclefit/analytics/page.tsx`
@@ -946,19 +946,19 @@
 3. Strength progression: line chart of 1RM estimates per exercise over time
 4. Body composition logger: weight, body fat % (manual or AI photo estimate), measurements
 5. AI body composition: upload front/side/back photos → CNN estimates body fat % (±3%)
-6. Calo integration: display daily calorie intake alongside training volume for body recomp planning
+6. NutriPrismora integration: display daily calorie intake alongside training volume for body recomp planning
 **Why:** Athletes need data — volume tracking and strength progression charts are the retention hooks.
 
 ---
 
 # TRACK 10: Technical & Specialty Sub-Apps (3 Apps)
 
-**Purpose:** Build Vehicle Identifier, Rock Identifier, and OkayFish sub-apps.
+**Purpose:** Build AutoPrismora, RockPrismora, and AquaPrismora sub-apps.
 **Subagent scope:** Next.js pages, specialized domain features, external API integrations.
 **Depends on:** Track 1 (routes), Track 2 (UI components), Track 5 (DB schemas), Track 6 (AI endpoints)
 
-## Task 10.1 — Vehicle Identifier: Scan & Spec Sheet (20 min)
-**What:** Build the AutoLens car identification and vehicle specification display.
+## Task 10.1 — AutoPrismora: Scan & Spec Sheet (20 min)
+**What:** Build the AutoPrismora car identification and vehicle specification display.
 **How:**
 1. Create `apps/web/src/app/vehicleid/identify/page.tsx`: `<PhotoCapture>` + VIN text input option
 2. Photo result: make, model, year, trim, body style, confidence %
@@ -966,7 +966,7 @@
 4. Spec sheet: engine, transmission, drivetrain, fuel economy (EPA data), MSRP, safety rating
 5. Market value: KBB/Edmunds estimated value range by condition (Fair/Good/Excellent)
 6. "Save to My Garage" → `vehicleid.user_garages`
-**Why:** AutoLens serves the $2.3T automotive market — instant identification + valuation at dealer lots drives premium signups.
+**Why:** AutoPrismora serves the $2.3T automotive market — instant identification + valuation at dealer lots drives premium signups.
 
 ## Task 10.2 — Vehicle: Recall Check & Damage Estimator (15 min)
 **What:** Build the NHTSA recall checker and AI damage cost estimator.
@@ -989,8 +989,8 @@
 5. Fuel economy log: track fill-ups, calculate real-world MPG vs EPA estimate
 **Why:** The garage + maintenance log creates daily utility beyond identification — it's a permanent car management tool.
 
-## Task 10.4 — Rock Identifier: Scan & Mineral Profile (20 min)
-**What:** Build the RockVision mineral identification and geological profile.
+## Task 10.4 — RockPrismora: Scan & Mineral Profile (20 min)
+**What:** Build the RockPrismora mineral identification and geological profile.
 **How:**
 1. Create `apps/web/src/app/rockid/identify/page.tsx`: `<PhotoCapture>` with freeform overlay
 2. Result: mineral name, rock type (igneous/sedimentary/metamorphic), chemical formula, crystal system
@@ -1000,7 +1000,7 @@
 6. "Log Specimen" → GPS-tagged entry in `rockid.geolocations`
 **Why:** Field geologists and gem hunters need instant identification — the Mohs + chemical formula display is essential.
 
-## Task 10.5 — Rock Identifier: Collection & Geology Map (15 min)
+## Task 10.5 — RockPrismora: Collection & Geology Map (15 min)
 **What:** Build the rock specimen collection and geological survey map.
 **How:**
 1. Create `apps/web/src/app/rockid/collection/page.tsx`: specimen grid with photos, names, locations
@@ -1010,8 +1010,8 @@
 5. Specimen compare: select 2 specimens → side-by-side property comparison table
 **Why:** GPS-tagged specimen mapping creates a personal geological survey — invaluable for field researchers and hobbyists.
 
-## Task 10.6 — OkayFish: Scan & Species Profile (20 min)
-**What:** Build the AquaIQ fish identification and species care profile.
+## Task 10.6 — AquaPrismora: Scan & Species Profile (20 min)
+**What:** Build the AquaPrismora fish identification and species care profile.
 **How:**
 1. Create `apps/web/src/app/fishcare/identify/page.tsx`: `<PhotoCapture>`
 2. Result: species name, family, maximum size, natural habitat, temperature/pH range
@@ -1021,7 +1021,7 @@
 6. Disease symptom checker: select visual symptoms → AI suggests diagnosis + treatment protocol
 **Why:** Pet store fish buyers need instant compatibility checking — one aggressive fish can destroy a $500 community tank.
 
-## Task 10.7 — OkayFish: Tank Manager & Water Parameters (15 min)
+## Task 10.7 — AquaPrismora: Tank Manager & Water Parameters (15 min)
 **What:** Build the aquarium tank manager and water chemistry tracker.
 **How:**
 1. Create `apps/web/src/app/fishcare/tanks/page.tsx`: tank cards with photo, name, volume, livestock count
@@ -1050,9 +1050,9 @@
 **How:**
 1. Create Kafka producer in Auth Service for `UserUpdated` event
 2. Create consumer in each sub-app (if they cache user data) or in the central Profile Service
-3. Handle avatar updates: when user uploads new avatar in PlantID, it updates the global profile
+3. Handle avatar updates: when user uploads new avatar in FloraPrismora, it updates the global profile
 4. Handle preference sync: changes to unit system (metric/imperial) update global settings
-**Why:** A user changing their name in Calo should instantly see that name change reflected when they open AthleteOS.
+**Why:** A user changing their name in NutriPrismora should instantly see that name change reflected when they open MusclePrismora.
 
 ## Task 11.3 — The Gamification Engine (20 min)
 **What:** Build a centralized gamification service that tracks milestones across all 17 apps.
@@ -1068,11 +1068,11 @@
 **What:** Build the engine that suggests related sub-apps based on user behavior.
 **How:**
 1. Create `services/recommendation-service/` (Python/FastAPI)
-2. Logic: If user uses Calo + LazyFit frequently -> suggest MuscleFit
+2. Logic: If user uses NutriPrismora + FitPrismora frequently -> suggest MusclePrismora
 3. Logic: If user uses DogBreed -> suggest cat app, or show pet telehealth upsell
-4. Logic: If user uses CoinSnap + CardVault -> suggest VinylSnap or NoteSnap
+4. Logic: If user uses CoinPrismora + CardPrismora -> suggest VinylPrismora or NotePrismora
 5. Delivery: Expose `GET /api/v1/recommendations/apps` for the frontend AppShell to display "Suggested for You"
-**Why:** The SuperWebApp's business model relies on converting single-app users into Platform Pass subscribers through cross-pollination.
+**Why:** The Prismora Platform's business model relies on converting single-app users into Platform Pass subscribers through cross-pollination.
 
 ## Task 11.5 — Unified Export & Data Portability (15 min)
 **What:** Create a centralized way for users to export all their data across the platform.
@@ -1109,7 +1109,7 @@
 2. Create `playwright.config.ts` (testing Chrome, Firefox, Safari viewing mobile and desktop)
 3. Set up global setup/teardown (starting local dev server before tests)
 4. Write test `login.spec.ts`: Fill login form, submit, verify redirect to dashboard
-5. Write test `navigation.spec.ts`: Verify sidebar navigation between PlantID and CoinSnap
+5. Write test `navigation.spec.ts`: Verify sidebar navigation between FloraPrismora and CoinPrismora
 **Why:** E2E tests are the only way to verify that compiling 17 apps together actually results in a working UI.
 
 ## Task 12.3 — API Integration Testing (Pytest) (15 min)
@@ -1168,7 +1168,7 @@
 3. Create manifests for Kong, Next.js frontend, and core backend services
 4. Define Ingress routes, Services, Deployments, and ConfigMaps
 5. Create deployment script or workflow (e.g., updating image tags in a GitOps repo for ArgoCD, or running `kubectl apply`)
-**Why:** SuperWebApp is a microservices architecture; it requires K8s for scalability and orchestration.
+**Why:** Prismora Platform is a microservices architecture; it requires K8s for scalability and orchestration.
 
 ## Task 13.4 — Environment Provisioning (Terraform/OpenTofu) (15 min)
 **What:** Create Infrastructure as Code (IaC) for cloud resources.
@@ -1209,7 +1209,7 @@
 **How:**
 1. Implement cookie consent banner in Next.js (using a package or custom UI)
 2. Implement "Delete My Account" flow: Hard delete from Auth, soft delete or anonymize tracking data, cascade delete user data
-3. COPPA (Kids Mode in apps like EntomIQ): Ensure no age tracking or PII is requested if age < 13
+3. COPPA (Kids Mode in apps like InsectPrismora): Ensure no age tracking or PII is requested if age < 13
 4. Create Privacy Policy and Terms of Service placeholder pages
 **Why:** Legal compliance is not optional, especially when handling photos (which may contain PII or location data).
 
@@ -1288,7 +1288,7 @@ These bind the UI to the backend and databases.
 Once the platform, auth, UI library, databases, and AI endpoints (even placeholders) are ready, sub-app development can explode in parallel.
 *   **Track 7:** Nature Apps (Plant, Mushroom, Bird, Insect, Dog, Cat)
 *   **Track 8:** Collectibles (Coin, Vinyl, Card, Note)
-*   **Track 9:** Health/Fitness (Calo, Fruit, LazyFit, MuscleFit)
+*   **Track 9:** Health/Fitness (NutriPrismora, Fruit, FitPrismora, MusclePrismora)
 *   **Track 10:** Technical (Vehicle, Rock, Fish)
 
 ### Wave 5: Polish & Deployment (Low Concurrency)

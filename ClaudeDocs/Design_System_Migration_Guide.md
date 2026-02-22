@@ -72,23 +72,23 @@ The Unified Design System establishes a consistent visual and functional experie
 
 | # | App Name | Brand Name | Current Font | Target Font | Current Primary | Target Primary | Accent Color | Priority |
 |---|----------|------------|--------------|-------------|-----------------|----------------|--------------|----------|
-| 01 | Coin Snap | CoinLens AI | Roboto | Inter | #3B82F6 (Blue) | #6366F1 (Indigo) | #F59E0B (Amber) | **HIGH** |
-| 02 | LazyFit | LazyFit | Open Sans | Inter | #10B981 (Green) | #6366F1 (Indigo) | #10B981 (Green) | **HIGH** |
-| 03 | Vinyl Snap | VinylVault AI | SF Pro Display | Inter | #8B5CF6 (Purple) | #6366F1 (Indigo) | #8B5CF6 (Violet) | MEDIUM |
-| 04 | Calo | NutriLens AI | System UI | Inter | #EF4444 (Red) | #6366F1 (Indigo) | #10B981 (Green) | **HIGH** |
-| 05 | Rock Identifier | GeoLens AI | Montserrat | Inter | #78350F (Brown) | #6366F1 (Indigo) | #D97706 (Amber) | MEDIUM |
-| 06 | Picture Mushroom | ForageSafe AI | Lato | Inter | #059669 (Green) | #6366F1 (Indigo) | #EF4444 (Red - safety) | **HIGH** |
-| 07 | MuscleFit | AthleteOS | Oswald | Inter | #DC2626 (Red) | #6366F1 (Indigo) | #F97316 (Orange) | MEDIUM |
-| 08 | Picture Insect | EntomIQ | Source Sans Pro | Inter | #2563EB (Blue) | #6366F1 (Indigo) | #84CC16 (Lime) | LOW |
-| 09 | Picture Bird | WingWatch Pro | Merriweather | Inter | #0EA5E9 (Sky) | #6366F1 (Indigo) | #06B6D4 (Cyan) | MEDIUM |
-| 10 | Note Snap | CurrencyLens | Helvetica Neue | Inter | #059669 (Green) | #6366F1 (Indigo) | #A855F7 (Purple) | LOW |
-| 11 | Okay Fish | AquaIQ Pro | Nunito | Inter | #0284C7 (Blue) | #6366F1 (Indigo) | #38BDF8 (Sky) | MEDIUM |
-| 12 | Star Snap | CardVault AI | Poppins | Inter | #F59E0B (Amber) | #6366F1 (Indigo) | #EAB308 (Yellow) | LOW |
-| 13 | Plant Identifier | FloraLens AI | Raleway | Inter | #22C55E (Green) | #6366F1 (Indigo) | #F59E0B (Amber) | **HIGH** |
-| 14 | Fruit Identifier | OrchardIQ | Quicksand | Inter | #F97316 (Orange) | #6366F1 (Indigo) | #FB923C (Orange) | MEDIUM |
-| 15 | Vehicle Identifier | AutoLens AI | Exo 2 | Inter | #4F46E5 (Indigo) | #6366F1 (Indigo) | #EF4444 (Red) | MEDIUM |
-| 16 | Dog Breed Identifier | BarkIQ AI | Nunito | Inter | #F59E0B (Amber) | #6366F1 (Indigo) | #D97706 (Amber) | **HIGH** |
-| 17 | Cat Breed Identifier | MeowIQ AI | Nunito | Inter | #8B5CF6 (Purple) | #6366F1 (Indigo) | #A855F7 (Purple) | **HIGH** |
+| 01 | CoinPrismora | CoinPrismora AI | Roboto | Inter | #3B82F6 (Blue) | #6366F1 (Indigo) | #F59E0B (Amber) | **HIGH** |
+| 02 | FitPrismora | FitPrismora | Open Sans | Inter | #10B981 (Green) | #6366F1 (Indigo) | #10B981 (Green) | **HIGH** |
+| 03 | VinylPrismora | VinylVault AI | SF Pro Display | Inter | #8B5CF6 (Purple) | #6366F1 (Indigo) | #8B5CF6 (Violet) | MEDIUM |
+| 04 | NutriPrismora | NutriLens AI | System UI | Inter | #EF4444 (Red) | #6366F1 (Indigo) | #10B981 (Green) | **HIGH** |
+| 05 | RockPrismora | GeoLens AI | Montserrat | Inter | #78350F (Brown) | #6366F1 (Indigo) | #D97706 (Amber) | MEDIUM |
+| 06 | ShroomPrismora | ForageSafe AI | Lato | Inter | #059669 (Green) | #6366F1 (Indigo) | #EF4444 (Red - safety) | **HIGH** |
+| 07 | MusclePrismora | MusclePrismora | Oswald | Inter | #DC2626 (Red) | #6366F1 (Indigo) | #F97316 (Orange) | MEDIUM |
+| 08 | InsectPrismora | InsectPrismora | Source Sans Pro | Inter | #2563EB (Blue) | #6366F1 (Indigo) | #84CC16 (Lime) | LOW |
+| 09 | BirdPrismora | BirdPrismora Pro | Merriweather | Inter | #0EA5E9 (Sky) | #6366F1 (Indigo) | #06B6D4 (Cyan) | MEDIUM |
+| 10 | NotePrismora | NotePrismora | Helvetica Neue | Inter | #059669 (Green) | #6366F1 (Indigo) | #A855F7 (Purple) | LOW |
+| 11 | AquaPrismora | AquaPrismora Pro | Nunito | Inter | #0284C7 (Blue) | #6366F1 (Indigo) | #38BDF8 (Sky) | MEDIUM |
+| 12 | CardPrismora | CardPrismora AI | Poppins | Inter | #F59E0B (Amber) | #6366F1 (Indigo) | #EAB308 (Yellow) | LOW |
+| 13 | FloraPrismora | FloraLens AI | Raleway | Inter | #22C55E (Green) | #6366F1 (Indigo) | #F59E0B (Amber) | **HIGH** |
+| 14 | FruitPrismora | FruitPrismora | Quicksand | Inter | #F97316 (Orange) | #6366F1 (Indigo) | #FB923C (Orange) | MEDIUM |
+| 15 | AutoPrismora | AutoPrismora AI | Exo 2 | Inter | #4F46E5 (Indigo) | #6366F1 (Indigo) | #EF4444 (Red) | MEDIUM |
+| 16 | PawPrismora | PawPrismora AI | Nunito | Inter | #F59E0B (Amber) | #6366F1 (Indigo) | #D97706 (Amber) | **HIGH** |
+| 17 | MeowPrismora | MeowPrismora AI | Nunito | Inter | #8B5CF6 (Purple) | #6366F1 (Indigo) | #A855F7 (Purple) | **HIGH** |
 
 **Migration Priority Legend:**
 - **HIGH**: Phase 1 (Weeks 7-10) - Core user-facing apps
@@ -120,23 +120,23 @@ The Unified Design System establishes a consistent visual and functional experie
 
 | App # | App Name | Old Font(s) | Old Weights Used | New Font | Migration Notes |
 |-------|----------|-------------|------------------|----------|-----------------|
-| 01 | Coin Snap | Roboto | 400, 500, 700 | Inter | Direct replacement, line-height may need adjustment |
-| 02 | LazyFit | Open Sans | 400, 600, 800 | Inter | Matches well, reduce font-weight by 100 for visual parity |
-| 03 | Vinyl Snap | SF Pro Display | 300, 400, 600 | Inter | Slightly narrower, adjust letter-spacing on headings |
-| 04 | Calo | System UI | 400, 500, 700 | Inter | Will be more consistent, check number rendering |
-| 05 | Rock Identifier | Montserrat | 400, 600, 700 | Inter | Montserrat is wider, adjust container widths |
-| 06 | Picture Mushroom | Lato | 400, 700 | Inter | Direct replacement, minimal changes needed |
-| 07 | MuscleFit | Oswald | 400, 600, 700 | Inter | Oswald is condensed, expect text reflow |
-| 08 | Picture Insect | Source Sans Pro | 400, 600 | Inter | Very similar, minimal changes |
-| 09 | Picture Bird | Merriweather | 400, 700 | Inter | Merriweather is serif, major visual change |
-| 10 | Note Snap | Helvetica Neue | 400, 500, 700 | Inter | Very similar metrics, direct swap |
-| 11 | Okay Fish | Nunito | 400, 600, 700 | Inter | Nunito is rounded, expect visual personality change |
-| 12 | Star Snap | Poppins | 400, 600, 700 | Inter | Poppins is geometric, slight adjustment needed |
-| 13 | Plant Identifier | Raleway | 400, 600 | Inter | Raleway has distinctive style, major change |
-| 14 | Fruit Identifier | Quicksand | 400, 600, 700 | Inter | Quicksand is rounded, visual change expected |
-| 15 | Vehicle Identifier | Exo 2 | 400, 600, 700 | Inter | Exo 2 is geometric/tech, minimal impact |
-| 16 | Dog Breed Identifier | Nunito | 400, 600, 700 | Inter | Same as Okay Fish |
-| 17 | Cat Breed Identifier | Nunito | 400, 600, 700 | Inter | Same as Okay Fish |
+| 01 | CoinPrismora | Roboto | 400, 500, 700 | Inter | Direct replacement, line-height may need adjustment |
+| 02 | FitPrismora | Open Sans | 400, 600, 800 | Inter | Matches well, reduce font-weight by 100 for visual parity |
+| 03 | VinylPrismora | SF Pro Display | 300, 400, 600 | Inter | Slightly narrower, adjust letter-spacing on headings |
+| 04 | NutriPrismora | System UI | 400, 500, 700 | Inter | Will be more consistent, check number rendering |
+| 05 | RockPrismora | Montserrat | 400, 600, 700 | Inter | Montserrat is wider, adjust container widths |
+| 06 | ShroomPrismora | Lato | 400, 700 | Inter | Direct replacement, minimal changes needed |
+| 07 | MusclePrismora | Oswald | 400, 600, 700 | Inter | Oswald is condensed, expect text reflow |
+| 08 | InsectPrismora | Source Sans Pro | 400, 600 | Inter | Very similar, minimal changes |
+| 09 | BirdPrismora | Merriweather | 400, 700 | Inter | Merriweather is serif, major visual change |
+| 10 | NotePrismora | Helvetica Neue | 400, 500, 700 | Inter | Very similar metrics, direct swap |
+| 11 | AquaPrismora | Nunito | 400, 600, 700 | Inter | Nunito is rounded, expect visual personality change |
+| 12 | CardPrismora | Poppins | 400, 600, 700 | Inter | Poppins is geometric, slight adjustment needed |
+| 13 | FloraPrismora | Raleway | 400, 600 | Inter | Raleway has distinctive style, major change |
+| 14 | FruitPrismora | Quicksand | 400, 600, 700 | Inter | Quicksand is rounded, visual change expected |
+| 15 | AutoPrismora | Exo 2 | 400, 600, 700 | Inter | Exo 2 is geometric/tech, minimal impact |
+| 16 | PawPrismora | Nunito | 400, 600, 700 | Inter | Same as AquaPrismora |
+| 17 | MeowPrismora | Nunito | 400, 600, 700 | Inter | Same as AquaPrismora |
 
 ### 3.2 Typography Scale Mapping
 
@@ -272,10 +272,10 @@ While Inter is the unified font, apps may use brand fonts for headings only:
 
 | App | Brand Font Exception | Usage Scope |
 |-----|---------------------|-------------|
-| Coin Snap | None | Inter everywhere |
-| Picture Bird | Merriweather (headings only) | H1-H3 only |
-| MuscleFit | Oswald (numbers/headings) | Stats and H1 only |
-| Vinyl Snap | None | Inter everywhere |
+| CoinPrismora | None | Inter everywhere |
+| BirdPrismora | Merriweather (headings only) | H1-H3 only |
+| MusclePrismora | Oswald (numbers/headings) | Stats and H1 only |
+| VinylPrismora | None | Inter everywhere |
 
 ---
 
@@ -391,19 +391,19 @@ Each app retains a unique accent color for brand identity within the unified sys
 
 | App | Accent Name | Accent Token | Hex Value | Usage |
 |-----|-------------|--------------|-----------|-------|
-| Coin Snap | Amber | `accent-500` | #F59E0B | Rarity badges, highlights |
-| LazyFit | Green | `accent-500` | #10B981 | Progress, achievements |
-| Vinyl Snap | Violet | `accent-500` | #8B5CF6 | Genre tags, collection |
-| Calo | Green | `accent-500` | #10B981 | Nutrition scores |
+| CoinPrismora | Amber | `accent-500` | #F59E0B | Rarity badges, highlights |
+| FitPrismora | Green | `accent-500` | #10B981 | Progress, achievements |
+| VinylPrismora | Violet | `accent-500` | #8B5CF6 | Genre tags, collection |
+| NutriPrismora | Green | `accent-500` | #10B981 | Nutrition scores |
 | Rock ID | Amber | `accent-500` | #D97706 | Gemstone highlights |
 | Mushroom | Red | `accent-500` | #EF4444 | Toxicity warnings |
-| MuscleFit | Orange | `accent-500` | #F97316 | Intensity levels |
+| MusclePrismora | Orange | `accent-500` | #F97316 | Intensity levels |
 | Insect | Lime | `accent-500` | #84CC16 | Beneficial insects |
 | Bird | Cyan | `accent-500` | #06B6D4 | Migration alerts |
-| Note Snap | Purple | `accent-500` | #A855F7 | Currency badges |
+| NotePrismora | Purple | `accent-500` | #A855F7 | Currency badges |
 | Fish | Sky | `accent-500` | #38BDF8 | Water parameters |
-| Star Snap | Yellow | `accent-500` | #EAB308 | Card rarity |
-| Plant ID | Amber | `accent-500` | #F59E0B | Care reminders |
+| CardPrismora | Yellow | `accent-500` | #EAB308 | Card rarity |
+| FloraPrismora | Amber | `accent-500` | #F59E0B | Care reminders |
 | Fruit ID | Orange | `accent-500` | #FB923C | Ripeness indicator |
 | Vehicle ID | Red | `accent-500` | #EF4444 | Damage alerts |
 | Dog ID | Amber | `accent-500` | #D97706 | Breed traits |
@@ -1031,7 +1031,7 @@ module.exports = {
 
 ```javascript
 // tailwind.config.js - App-specific accent extension
-// Example for LazyFit (green accent)
+// Example for FitPrismora (green accent)
 
 module.exports = {
   theme: {
@@ -1429,12 +1429,12 @@ packages/design-system/
 
 | Week | App | Current Stack | Migration Complexity |
 |------|-----|---------------|---------------------|
-| 7 | Coin Snap | Next.js + Custom CSS | Medium |
-| 7-8 | LazyFit | Next.js + Tailwind | Low |
-| 8-9 | Calo | Next.js + Custom CSS | Medium |
-| 9-10 | Plant Identifier | Next.js + Custom CSS | Medium |
+| 7 | CoinPrismora | Next.js + Custom CSS | Medium |
+| 7-8 | FitPrismora | Next.js + Tailwind | Low |
+| 8-9 | NutriPrismora | Next.js + Custom CSS | Medium |
+| 9-10 | FloraPrismora | Next.js + Custom CSS | Medium |
 
-#### Week 7: Coin Snap Migration
+#### Week 7: CoinPrismora Migration
 
 **Day 1: Setup**
 ```bash
@@ -1457,7 +1457,7 @@ npm install @photoidentifier/design-system
 - Functional testing
 - Bug fixes
 
-#### Week 7-8: LazyFit Migration
+#### Week 7-8: FitPrismora Migration
 
 **Day 1: Setup**
 - Install design system package
@@ -1474,7 +1474,7 @@ npm install @photoidentifier/design-system
 
 **Day 5: Testing**
 
-#### Week 8-9: Calo Migration
+#### Week 8-9: NutriPrismora Migration
 
 **Day 1-2: Setup & Configuration**
 - Install design system
@@ -1488,7 +1488,7 @@ npm install @photoidentifier/design-system
 
 **Day 5: Testing**
 
-#### Week 9-10: Plant Identifier Migration
+#### Week 9-10: FloraPrismora Migration
 
 **Day 1-2: Setup & Configuration**
 - Install design system
@@ -1506,8 +1506,8 @@ npm install @photoidentifier/design-system
 
 | Week | Apps |
 |------|------|
-| 11 | Vinyl Snap, Rock Identifier, MuscleFit |
-| 12 | Picture Bird, Okay Fish, Vehicle Identifier |
+| 11 | VinylPrismora, RockPrismora, MusclePrismora |
+| 12 | BirdPrismora, AquaPrismora, AutoPrismora |
 
 Follow the same 5-day pattern per app group:
 - Day 1: Setup
@@ -1519,8 +1519,8 @@ Follow the same 5-day pattern per app group:
 
 | Week | Apps |
 |------|------|
-| 13 | Picture Insect, Note Snap, Star Snap, Fruit Identifier |
-| 14 | Dog Breed Identifier, Cat Breed Identifier |
+| 13 | InsectPrismora, NotePrismora, CardPrismora, FruitPrismora |
+| 14 | PawPrismora, MeowPrismora |
 
 ### 7.9 Phase 7: Polish & Launch (Weeks 15-16)
 
